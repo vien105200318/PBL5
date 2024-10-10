@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Điều Khiển Máy Bơm</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Điều Khiển 10 Máy Bơm</h1>
+    <div id="pump-container">
+        {% for i in range(10) %}
+        <div class="pump">
+            <h3>Máy Bơm {{ i + 1 }}</h3>
+            <button class="toggle-btn" onclick="togglePump({{ i }})"></button>
+            <span class="status">Tắt</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h2>Thông Tin Thời Gian Bật</h2>
+    <table id="pump-table">
+        <thead>
+            <tr>
+                <th>Máy Bơm</th>
+                <th>Trạng Thái</th>
+                <th>Thời Gian Bật (giây)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(10) %}
+            <tr>
+                <td>Máy Bơm {{ i + 1 }}</td>
+                <td class="pump-status">Tắt</td>
+                <td class="pump-time">0</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button onclick="exportData()" class="btn-export">Xuất Dữ Liệu</button>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        const socket = io();
+
+        function togglePump(pumpId) {
+            socket.emit('toggle_pump', pumpId);
+        }
+
+        function exportData() {
+            window.open('/export');
+        }
+
+        // Nhận trạng thái và thời gian bật máy bơm từ server
+        socket.on('update_status', function(data) {
+            updatePumpStatus(data.status, data.time_on);
+        });
+
+        // Lấy trạng thái và thời gian bật của máy bơm khi tải trang
+        window.onload = function() {
+            socket.emit('get_status');
+        };
+
+        // Cập nhật trạng thái và thời gian bật máy bơm
+        function updatePumpStatus(status, time_on) {
+            const pumpElements = document.querySelectorAll('.pump');
+            const pumpTableRows = document.querySelectorAll('#pump-table tbody tr');
+
+            pumpElements.forEach((pump, index) => {
+                const statusElement = pump.querySelector('.status');
+                const pumpStatusCell = pumpTableRows[index].querySelector('.pump-status');
+                const toggleButton = pump.querySelector('.toggle-btn');
+
+                if (status[index]) {
+                    statusElement.textContent = 'Bật';
+                    toggleButton.classList.add('on');
+                    pumpStatusCell.textContent = 'Bật';
+                } else {
+                    statusElement.textContent = 'Tắt';
+                    toggleButton.classList.remove('on');
+                    pumpStatusCell.textContent = 'Tắt';
+                }
+
+                // Cập nhật thời gian bật trong bảng
+                const pumpTimeCell = pumpTableRows[index].querySelector('.pump-time');
+                pumpTimeCell.textContent = time_on[index].toFixed(2); // Làm tròn đến 2 chữ số thập phân
+            });
+        }
+    </script>
+</body>
+</html>
