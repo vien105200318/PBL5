@@ -1,0 +1,168 @@
+/* body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#pump-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.pump {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    width: 150px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn {
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+} */
+
+
+
+
+
+/* Tổng quan */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    text-align: center;
+}
+
+h1 {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    margin: 0;
+}
+
+h2 {
+    color: #333;
+    margin: 20px 0;
+}
+
+/* Bố cục của các máy bơm */
+#pump-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 20px auto;
+    max-width: 1200px;
+}
+
+.pump {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+}
+
+.pump h3 {
+    color: #333;
+    font-size: 1.2em;
+}
+
+/* Trạng thái Tắt */
+.toggle-btn {
+    background-color: #baccba;
+    color: white;
+    border: 4px solid black;;
+    border-radius: 5px;
+    padding: 20px 30px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+/* Trạng thái Bật */
+.toggle-btn.on {
+    background-color:red;
+}
+
+.toggle-btn:hover {
+    opacity: 0.4;
+}
+
+.status {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #666;
+}
+
+/* Bảng thời gian bật */
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+td {
+    color: #333;
+}
+
+/* Nút xuất dữ liệu */
+.btn-export {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 20px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-export:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #pump-container {
+        flex-direction: row;
+        justify-content: space-between; /* Distributes items evenly */
+    }
+
+    .pump {
+        width: 37%; /* 50% width for two pumps per row */
+        margin: 10px 0; /* Adjusts margin for better spacing */
+    }
+
+    .pump:nth-child(even) {
+        margin-right: 5px;
+    }
+    .pump:nth-child(odd) {
+        margin-left: 5px;
+    }
+
+    table {
+        width: 100%;
+    }
+}
